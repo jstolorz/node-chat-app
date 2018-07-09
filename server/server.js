@@ -15,14 +15,24 @@ app.use(express.static(publicPatch));
 io.on('connection', (socket) => {
     console.log('New User connected');
 
-    socket.emit('newEmail', {
-        from: 'mike@example.com',
-        text: 'Hey. What is going on ? ',
-        createdAt: 6072018
+    socket.on('createMessage', (message) => {
+        console.log(message);
     });
 
-    socket.on('createEmail', (newEmail) => {
-        console.log('createEmail: ', newEmail);
+    socket.emit('newMessage',{
+        from: 'Olo',
+        text: 'Cześć co słychać ?',
+        createdAt: 9072018
+    });
+
+    socket.on('createMessage', (message) => {
+        console.log(message);
+
+        io.emit('newMessage',{
+            from: message.from,
+            text: message.text,
+            createdAt: new Date().getTime()
+        });
     });
 
     socket.on('disconnect', () => {
