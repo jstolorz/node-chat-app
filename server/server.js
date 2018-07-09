@@ -20,9 +20,15 @@ io.on('connection', (socket) => {
     });
 
     socket.emit('newMessage',{
-        from: 'Olo',
-        text: 'Cześć co słychać ?',
-        createdAt: 9072018
+        from: 'Admin',
+        text: 'Welcome to a chat app',
+        createdAt: new Date().getTime()
+    });
+
+    socket.broadcast.emit('newMessage',{
+        from: 'Admin',
+        text: 'New user joined',
+        createdAt: new Date().getTime()
     });
 
     socket.on('createMessage', (message) => {
